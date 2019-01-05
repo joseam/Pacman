@@ -1,7 +1,5 @@
 package controller;
 
-import java.awt.event.KeyEvent;
-
 import connection.Connection;
 import model.Model;
 import view.View;
@@ -11,6 +9,11 @@ public class GameController implements ICallback {
 	private View v;
 	private Connection server;
 		
+	public GameController(Model m, View v) {
+		this.m = m;
+		this.v = v;
+	}
+
 	@Override
 	public void pacmanDead() {
 		// TODO Auto-generated method stub
@@ -18,13 +21,8 @@ public class GameController implements ICallback {
 	}
 	
 	private void updateGhosts() {
-		
 	}
 	
-	private void movePacman(KeyEvent e) {
-		
-	}
-
 	private void registerAtServer() {
 		
 	}

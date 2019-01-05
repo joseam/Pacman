@@ -1,10 +1,13 @@
 package model;
 
+import java.awt.Image;
+
 public class Pacman extends GameObject implements IFigure {
 	private int coinsEaten;
 	private int fruitsEaten;
 	private int ghostsEaten;
-	private int hearts;	
+	private int hearts;
+	private Image image;
 	
 	public Pacman(ObjectType type, Integer[] position, Integer[] color) {
 		super(type, position, color);
@@ -33,6 +36,14 @@ public class Pacman extends GameObject implements IFigure {
 	
 	public boolean loseHeart() {
 		return false;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 }
