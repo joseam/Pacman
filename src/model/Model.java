@@ -9,15 +9,17 @@ public class Model {
 	private GameObject[] fruits;
 	private GameObject[] coins;
 	private GameObject[] ghosts;
-	private GameObject pacman;
+	private Pacman pacman;
 	private Score score;
 	
 	public Model() {
-		
+		createPacman();
 	}
 	
-	private void createPacman(int[] position) {
-		
+	private void createPacman() {
+		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
+		Integer pacmanPos[] = { 7*blockSize, 11*blockSize };
+		this.pacman = new Pacman(ObjectType.PACMAN, pacmanPos, null);
 	}
 
 	private void createGhost(int[] position, int[] color) {
@@ -43,7 +45,10 @@ public class Model {
 
 	public int calculateScore() {
 		// TODO Auto-generated method stub
-		return 0;
+		return pacman.getCoinsEaten() * 10;
 	}
-	
+
+	public Pacman getPacman() {
+		return pacman;
+	}	
 }

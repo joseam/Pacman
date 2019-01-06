@@ -27,17 +27,12 @@ public class BoardView extends JPanel {
 	private boolean isLoginScreen;
 	private Image ii;
 	private int data[];
-	@Deprecated
-	private Pacman pacman;
 
 	public BoardView(Model m) {
 		this.m = m;
 		this.isLoginScreen = true;
 		this.data = PropertyHandler.getLevelData();
-		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
-		Integer pacmanPos[] = { 7*blockSize, 11*blockSize };
-		this.pacman = new Pacman(ObjectType.PACMAN, pacmanPos, null);
-		this.getPacman().setImage(new ImageIcon("img/PacMan2right.gif").getImage());
+		this.m.getPacman().setImage(new ImageIcon("img/PacMan2right.gif").getImage());
 
 		setFocusable(true);
 		setLayout(null);
@@ -67,8 +62,8 @@ public class BoardView extends JPanel {
 	}
 
 	private void drawPacman(Graphics2D g2d) {
-		g2d.drawImage(this.getPacman().getImage(), this.getPacman().getPosition()[0] + 1,
-				this.getPacman().getPosition()[1] + 1, this);
+		g2d.drawImage(this.m.getPacman().getImage(), this.m.getPacman().getPosition()[0] + 1,
+				this.m.getPacman().getPosition()[1] + 1, this);
 	}
 
 	private void drawMaze(Graphics2D g2d) {
@@ -149,8 +144,11 @@ public class BoardView extends JPanel {
 		add(startGame);
 	}
 
-	@Deprecated
-	public Pacman getPacman() {
-		return pacman;
+	public int[] getData() {
+		return data;
+	}
+
+	public void setData(int index, int data) {
+		this.data[index] = data;
 	}
 }

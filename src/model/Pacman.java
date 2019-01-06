@@ -2,6 +2,8 @@ package model;
 
 import java.awt.Image;
 
+import javax.swing.ImageIcon;
+
 import client.PropertyHandler;
 
 public class Pacman extends GameObject implements IFigure {
@@ -27,7 +29,7 @@ public class Pacman extends GameObject implements IFigure {
 	}
 	
 	public void eatCoin() {
-		
+		coinsEaten++;
 	}
 	
 	public void eatGhost() {
@@ -50,4 +52,7 @@ public class Pacman extends GameObject implements IFigure {
 		this.image = image;
 	}
 
+	public int getCoinsEaten() {
+		return coinsEaten;
+	}
 }

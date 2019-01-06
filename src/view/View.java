@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -28,14 +27,13 @@ public class View extends JFrame {
 	private Model m;
 	private ICallback callback;
 	private BoardView board;
-	
+
 	public View(Model m) {
 		super();
 		this.m = m;
-				
+
 		setTitle(PropertyHandler.getProperty("frame.name"));
-		setSize(PropertyHandler.getPropertyAsInt("frame.sizeX"),
-				PropertyHandler.getPropertyAsInt("frame.sizeY"));
+		setSize(PropertyHandler.getPropertyAsInt("frame.sizeX"), PropertyHandler.getPropertyAsInt("frame.sizeY"));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
@@ -43,23 +41,25 @@ public class View extends JFrame {
 		add(this.board);
 		setVisible(true);
 	}
-
-	@Deprecated
-	public Pacman getPacman() {
-		return this.board.getPacman();
-	}
 	
+	public int[] getLevelData() {
+		return this.board.getData();
+	}
+
 	@Override
 	public synchronized void addKeyListener(KeyListener l) {
 		// TODO Auto-generated method stub
 		this.board.addKeyListener(l);
 	}
-	
+
 	@Override
 	public void repaint() {
 		// TODO Auto-generated method stub
 		super.repaint();
 		this.board.repaint();
 	}
-}
 
+	public void setLevelData(int index, int data) {
+		this.board.setData(index, data);
+	}
+}
