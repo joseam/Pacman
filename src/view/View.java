@@ -44,6 +44,7 @@ public class View extends JFrame {
 		setVisible(true);
 	}
 
+	@Deprecated
 	public Pacman getPacman() {
 		return this.board.getPacman();
 	}
@@ -52,6 +53,13 @@ public class View extends JFrame {
 	public synchronized void addKeyListener(KeyListener l) {
 		// TODO Auto-generated method stub
 		this.board.addKeyListener(l);
+	}
+	
+	@Override
+	public void repaint() {
+		// TODO Auto-generated method stub
+		super.repaint();
+		this.board.repaint();
 	}
 }
 

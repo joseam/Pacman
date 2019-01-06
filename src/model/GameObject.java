@@ -4,7 +4,7 @@ import java.io.File;
 
 public class GameObject {
 	private Integer[] color;
-	private Integer[] position;
+	protected Integer[] position;
 	private ObjectType type;
 	private File png;
 

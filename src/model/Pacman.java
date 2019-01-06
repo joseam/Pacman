@@ -2,6 +2,8 @@ package model;
 
 import java.awt.Image;
 
+import client.PropertyHandler;
+
 public class Pacman extends GameObject implements IFigure {
 	private int coinsEaten;
 	private int fruitsEaten;
@@ -19,7 +21,9 @@ public class Pacman extends GameObject implements IFigure {
 	
 	@Override
 	public void move(int dx, int dy) {
-		// TODO Auto-generated method stub
+		int speed = PropertyHandler.getPropertyAsInt("speed.pacman");
+		super.position[0] += (dx * speed);
+		super.position[1] += (dy * speed);
 	}
 	
 	public void eatCoin() {

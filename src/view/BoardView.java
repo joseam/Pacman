@@ -26,17 +26,20 @@ public class BoardView extends JPanel {
 	private Model m;
 	private boolean isLoginScreen;
 	private Image ii;
+	private int data[];
 	@Deprecated
 	private Pacman pacman;
 
 	public BoardView(Model m) {
 		this.m = m;
 		this.isLoginScreen = true;
-
-		Integer pacmanPos[] = { 7, 11 };
+		this.data = PropertyHandler.getLevelData();
+		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
+		Integer pacmanPos[] = { 7*blockSize, 11*blockSize };
 		this.pacman = new Pacman(ObjectType.PACMAN, pacmanPos, null);
 		this.getPacman().setImage(new ImageIcon("img/PacMan2right.gif").getImage());
 
+		setFocusable(true);
 		setLayout(null);
 	}
 
@@ -64,15 +67,13 @@ public class BoardView extends JPanel {
 	}
 
 	private void drawPacman(Graphics2D g2d) {
-		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
-		g2d.drawImage(this.getPacman().getImage(), this.getPacman().getPosition()[0] * blockSize + 1,
-				this.getPacman().getPosition()[1] * blockSize + 1, this);
+		g2d.drawImage(this.getPacman().getImage(), this.getPacman().getPosition()[0] + 1,
+				this.getPacman().getPosition()[1] + 1, this);
 	}
 
 	private void drawMaze(Graphics2D g2d) {
 		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
 		int screenSize = PropertyHandler.getPropertyAsInt("view.nblock") * blockSize;
-		int data[] = PropertyHandler.getLevelData();
 
 		int i = 0;
 		for (int y = 0; y < screenSize; y += blockSize) {
