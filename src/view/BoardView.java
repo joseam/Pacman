@@ -94,6 +94,9 @@ public class BoardView extends JPanel {
 					g2d.fillRect(x + blockSize / 2 - 1, y + blockSize / 2 - 1, 2, 2);
 
 				}
+				if ((data[i] & BlockElement.BORDER_BLOCK.getValue()) != 0) {
+					g2d.fillRect(x, y, blockSize, blockSize);
+				}
 
 				++i;
 			}
