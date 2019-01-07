@@ -18,7 +18,7 @@ public class Model {
 	
 	private void createPacman() {
 		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
-		Integer pacmanPos[] = { 7*blockSize, 11*blockSize };
+		Integer pacmanPos[] = { 15*blockSize, 19*blockSize };
 		this.pacman = new Pacman(ObjectType.PACMAN, pacmanPos, null);
 	}
 

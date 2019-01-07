@@ -49,8 +49,10 @@ public class BoardView extends JPanel {
 		}
 
 		removeAll();
+		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
+		int screenSize = PropertyHandler.getPropertyAsInt("view.nblock") * blockSize;
 		g2d.setColor(Color.BLACK);
-		g2d.fillRect(0, 0, 400, 400);
+		g2d.fillRect(0, 0, screenSize + 20, screenSize + 20);
 		drawScore(g2d);
 		drawMaze(g2d);
 		drawPacman(g2d);
@@ -107,9 +109,11 @@ public class BoardView extends JPanel {
 		g.setColor(new Color(96, 128, 255));
 		g.setFont(new Font("Helvetica", Font.BOLD, 14));
 		String s = "Score: " + this.m.calculateScore();
-		int screenSize = PropertyHandler.getPropertyAsInt("view.nblock")
-				* PropertyHandler.getPropertyAsInt("view.blocksize");
-		g.drawString(s, (int) (screenSize * 0.75), screenSize + 15);
+
+		int frameSizeX = PropertyHandler.getPropertyAsInt("frame.sizeX");
+		int frameSizeY = PropertyHandler.getPropertyAsInt("frame.sizeY");
+		g.drawString(s, (int) (frameSizeX - 100), (int) (frameSizeY * 0.90));
+		g.drawString("User: " + PropertyHandler.getProperty("app.user"), 50, (int) (frameSizeY * 0.90));
 		// TODO add lives here with g.drawImage
 	}
 
