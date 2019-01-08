@@ -2,6 +2,7 @@ package model;
 
 public class Ghost extends GameObject implements IFigure {
 	private boolean isEdible;
+	private Image image;
 	
 	public Ghost(ObjectType type, Integer[] position, Integer[] color) {
 		super(type, position, color);
