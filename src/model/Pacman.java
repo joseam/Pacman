@@ -54,8 +54,9 @@ public class Pacman extends GameObject implements IFigure {
 		}
 	}
 
+	@Override
 	public void setPng(Model.DIRECTION direction) {
-		String path = String.format("img/pacman_" + anim);
+		String path = "img/pacman_" + anim;
 		if (anim != 2) {
 			path += "_" + direction.toString().toLowerCase();
 		}

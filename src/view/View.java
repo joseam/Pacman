@@ -46,6 +46,10 @@ public class View extends JFrame {
 		return this.board.getData();
 	}
 
+	public boolean isGameActive() {
+		return this.board.isGameActive();
+	}
+	
 	@Override
 	public synchronized void addKeyListener(KeyListener l) {
 		// TODO Auto-generated method stub

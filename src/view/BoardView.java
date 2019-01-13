@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 
 import client.PropertyHandler;
 import model.GameObject;
+import model.Ghost;
 import model.Model;
 
 public class BoardView extends JPanel {
@@ -76,11 +77,17 @@ public class BoardView extends JPanel {
 		drawScore(g2d);
 		drawMaze(g2d);
 		drawPacman(g2d);
-		// drawGhost
+		drawGhost(g2d);
 
 		g2d.drawImage(ii, 5, 5, this);
 		Toolkit.getDefaultToolkit().sync();
 		g2d.dispose();
+	}
+
+	private void drawGhost(Graphics2D g2d) {
+		for (Ghost ghost : this.m.getGhosts()) {
+			g2d.drawImage(ghost.getPng(), ghost.getPosition()[0] + 1, ghost.getPosition()[1] + 1, this);
+		}
 	}
 
 	private void drawPacman(Graphics2D g2d) {
@@ -179,6 +186,10 @@ public class BoardView extends JPanel {
 		add(startGame);
 	}
 
+	public boolean isGameActive() {
+		return !this.isLoginScreen;
+	}
+	
 	public int[] getData() {
 		return data;
 	}

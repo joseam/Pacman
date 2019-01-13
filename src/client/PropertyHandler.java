@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public class PropertyHandler {
@@ -61,5 +63,14 @@ public class PropertyHandler {
 		
 		String data = props.getProperty("view.leveldata");
 		return Arrays.stream(data.split(" ")).mapToInt(Integer::parseInt).toArray();
+	}
+	
+	public static List<String> getGhostNames() {
+		if (props == null) {
+			new PropertyHandler();
+		}
+		
+		String data = props.getProperty("game.ghostnames");
+		return Arrays.asList(data.split(" "));
 	}
 }

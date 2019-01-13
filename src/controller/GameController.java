@@ -23,7 +23,10 @@ public class GameController extends KeyAdapter implements ICallback {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		if (!this.v.isGameActive()) {
+			return;
+		}
+		
 		super.keyPressed(e);
 		int keyCode = e.getKeyCode();
 
@@ -80,6 +83,10 @@ public class GameController extends KeyAdapter implements ICallback {
 			// Check if fruit is there and eat it
 			if ((levelBlock & BlockElement.FRUIT.getValue()) != 0) {
 				this.m.getPacman().eatFruit();
+				
+				// TODO start new timed thread which starts here for x seconds
+				this.m.getGhosts().forEach(x -> x.setIsEdible(true));
+				this.m.getGhosts().forEach(x -> x.move(0, 0));
 				this.v.setLevelData(index, levelBlock & (BlockElement.FRUIT.getValue() - 1));
 			}
 		}
