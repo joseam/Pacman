@@ -5,54 +5,86 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import client.PropertyHandler;
+import model.Model.DIRECTION;
 
 public class Pacman extends GameObject implements IFigure {
 	private int coinsEaten;
 	private int fruitsEaten;
 	private int ghostsEaten;
 	private int hearts;
-	private Image image;
-	
-	public Pacman(ObjectType type, Integer[] position, Integer[] color) {
-		super(type, position, color);
+	private int anim;
+	private int lastDx;
+	private int lastDy;
+
+	public Pacman(int[] position) {
+		super(position);
 		this.coinsEaten = 0;
 		this.fruitsEaten = 0;
 		this.ghostsEaten = 0;
 		this.hearts = 3;
+		this.anim = 0;
+		this.lastDx = 0;
+		this.lastDy = 0;
+		this.setPng(DIRECTION.RIGHT);
 	}
-	
+
 	@Override
 	public void move(int dx, int dy) {
 		int speed = PropertyHandler.getPropertyAsInt("speed.pacman");
 		super.position[0] += (dx * speed);
 		super.position[1] += (dy * speed);
+
+		if ((this.lastDx != 0 && this.lastDx == dx) || (this.lastDy != 0 && this.lastDy == dy)) {
+			anim = (anim + 1) % 3;
+		} else {
+			anim = 0;
+		}
+
+		this.lastDx = dx;
+		this.lastDy = dy;
+
+		if (dx < 0) {
+			this.setPng(DIRECTION.LEFT);
+		} else if (dx > 0) {
+			this.setPng(DIRECTION.RIGHT);
+		} else if (dy < 0) {
+			this.setPng(DIRECTION.UP);
+		} else {
+			this.setPng(DIRECTION.DOWN);
+		}
 	}
-	
+
+	public void setPng(Model.DIRECTION direction) {
+		String path = String.format("img/pacman_" + anim);
+		if (anim != 2) {
+			path += "_" + direction.toString().toLowerCase();
+		}
+		path += ".png";
+		super.png = new ImageIcon(path).getImage();
+	}
+
 	public void eatCoin() {
 		coinsEaten++;
 	}
-	
+
 	public void eatGhost() {
-		
+
 	}
-	
+
 	public void eatFruit() {
-		
+		fruitsEaten++;
 	}
-	
+
 	public boolean loseHeart() {
-		return false;
-	}
-
-	public Image getImage() {
-		return image;
-	}
-
-	public void setImage(Image image) {
-		this.image = image;
+		--hearts;
+		return hearts == 0;
 	}
 
 	public int getCoinsEaten() {
 		return coinsEaten;
+	}
+	
+	public int getFruitsEaten() {
+		return fruitsEaten;
 	}
 }

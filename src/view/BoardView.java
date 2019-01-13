@@ -9,6 +9,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,9 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import client.PropertyHandler;
+import model.GameObject;
 import model.Model;
-import model.ObjectType;
-import model.Pacman;
 
 public class BoardView extends JPanel {
 	private Model m;
@@ -32,10 +34,28 @@ public class BoardView extends JPanel {
 		this.m = m;
 		this.isLoginScreen = true;
 		this.data = PropertyHandler.getLevelData();
-		this.m.getPacman().setImage(new ImageIcon("img/PacMan2right.gif").getImage());
 
+		addRandomFruits();
 		setFocusable(true);
 		setLayout(null);
+	}
+
+	private void addRandomFruits() {
+		int nBlocks = PropertyHandler.getPropertyAsInt("view.nblock");
+		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
+		for (int i = 0; i < PropertyHandler.getPropertyAsInt("game.nfruits"); ++i) {
+			Random rand = new Random();
+			int pos[] = {0,0};
+			do {
+				pos[0] = rand.nextInt(nBlocks);
+				pos[1] = rand.nextInt(nBlocks);
+			} while ((this.data[pos[0] + nBlocks * pos[1]] & BlockElement.POINT.getValue()) == 0);
+			this.setData(pos[0] + nBlocks * pos[1], this.data[pos[0] + nBlocks * pos[1]] & (BlockElement.POINT.getValue() - 1));
+			this.setData(pos[0] + nBlocks * pos[1], this.data[pos[0] + nBlocks * pos[1]] | BlockElement.FRUIT.getValue());
+			pos[0] *= blockSize;
+			pos[1] *= blockSize;
+			this.m.createFruit(pos);
+		}
 	}
 
 	@Override
@@ -64,7 +84,7 @@ public class BoardView extends JPanel {
 	}
 
 	private void drawPacman(Graphics2D g2d) {
-		g2d.drawImage(this.m.getPacman().getImage(), this.m.getPacman().getPosition()[0] + 1,
+		g2d.drawImage(this.m.getPacman().getPng(), this.m.getPacman().getPosition()[0] + 1,
 				this.m.getPacman().getPosition()[1] + 1, this);
 	}
 
@@ -99,7 +119,15 @@ public class BoardView extends JPanel {
 				if ((data[i] & BlockElement.BORDER_BLOCK.getValue()) != 0) {
 					g2d.fillRect(x, y, blockSize, blockSize);
 				}
-
+				
+				if ((data[i] & BlockElement.FRUIT.getValue()) != 0) {
+					final int xVal = x;
+					final int yVal = y;
+					GameObject fruit = this.m.getFruits().stream()
+							.filter(f -> f.getPosition()[0] == xVal && f.getPosition()[1] == yVal)
+							.findFirst().get();
+					g2d.drawImage(fruit.getPng(), fruit.getPosition()[0] + 1, fruit.getPosition()[1] + 1, this);
+				}
 				++i;
 			}
 		}

@@ -1,40 +1,20 @@
 package model;
 
-import java.io.File;
+import java.awt.Image;
 
 public class GameObject {
-	private Integer[] color;
-	protected Integer[] position;
-	private ObjectType type;
-	private File png;
-
-	protected GameObject(ObjectType type, Integer[] position, Integer[] color) {
-		this.position = position;
-		this.color = color;
-		this.type = type;
-	}
+	protected int[] position;
+	protected Image png;
 	
-	public static GameObject createGameObject(ObjectType type, Integer[] position, Integer[] color) {
-		return null;
+	public GameObject(int[] position) {
+		this.position = position;
 	}
 
-	public Integer[] getColor() {
-		return this.color;
-	}
-
-	public Integer[] getPosition() {
+	public int[] getPosition() {
 		return this.position;
 	}
-	
-	public ObjectType getObjectType() {
-		return this.type;
-	}
 
-	public File getPng() {
+	public Image getPng() {
 		return png;
-	}
-
-	public void setPng(File png) {
-		this.png = png;
 	}
 }

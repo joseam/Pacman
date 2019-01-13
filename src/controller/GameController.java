@@ -77,6 +77,11 @@ public class GameController extends KeyAdapter implements ICallback {
 				this.m.getPacman().eatCoin();
 				this.v.setLevelData(index, levelBlock & (BlockElement.POINT.getValue() - 1));
 			}
+			// Check if fruit is there and eat it
+			if ((levelBlock & BlockElement.FRUIT.getValue()) != 0) {
+				this.m.getPacman().eatFruit();
+				this.v.setLevelData(index, levelBlock & (BlockElement.FRUIT.getValue() - 1));
+			}
 		}
 	}
 

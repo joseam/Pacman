@@ -1,25 +1,35 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.ImageIcon;
 
 import client.PropertyHandler;
 
 public class Model {
-	private GameObject[] walls;
-	private GameObject[] fruits;
-	private GameObject[] coins;
+	private List<GameObject> fruits;
 	private GameObject[] ghosts;
 	private Pacman pacman;
 	private Score score;
 	
+	public static enum DIRECTION {
+		UP,
+		RIGHT,
+		DOWN,
+		LEFT
+	}
+	
 	public Model() {
+		this.fruits = new ArrayList<GameObject>();
 		createPacman();
 	}
 	
 	private void createPacman() {
 		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
-		Integer pacmanPos[] = { 15*blockSize, 19*blockSize };
-		this.pacman = new Pacman(ObjectType.PACMAN, pacmanPos, null);
+		int pacmanPos[] = { 15*blockSize, 19*blockSize };
+		this.pacman = new Pacman(pacmanPos);
 	}
 
 	private void createGhost(int[] position, int[] color) {
@@ -27,28 +37,19 @@ public class Model {
 		
 	}
 
-	private void createWall(int[] start, int[] end) {
-		// TODO Auto-generated method stub
-		
+	public void createFruit(int[] position) {
+		this.fruits.add(new Fruit(position));
 	}
-
-	private void createFruit(int[] position) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void createCoin(int[] position) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	public int calculateScore() {
-		// TODO Auto-generated method stub
-		return pacman.getCoinsEaten() * 10;
+		return pacman.getCoinsEaten() * 10 + pacman.getFruitsEaten() * 50;
 	}
 
 	public Pacman getPacman() {
 		return pacman;
-	}	
+	}
+	
+	public List<GameObject> getFruits() {
+		return this.fruits;
+	}
 }
