@@ -28,7 +28,6 @@ public class View extends JFrame  {
 	private Model m;
 	private ICallback callback;
 	private BoardView board;
-	private Color BGCOLOR = Color.BLACK;
 
 	public View(Model m) {
 		super();
