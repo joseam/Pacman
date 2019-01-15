@@ -9,9 +9,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,9 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import client.PropertyHandler;
-import model.GameObject;
-import model.Ghost;
 import model.Model;
+import model.ObjectType;
+import model.Pacman;
 
 public class BoardView extends JPanel {
 	private Model m;
@@ -35,28 +32,10 @@ public class BoardView extends JPanel {
 		this.m = m;
 		this.isLoginScreen = true;
 		this.data = PropertyHandler.getLevelData();
+		this.m.getPacman().setImage(new ImageIcon("img/PacMan2right.gif").getImage());
 
-		addRandomFruits();
 		setFocusable(true);
 		setLayout(null);
-	}
-
-	private void addRandomFruits() {
-		int nBlocks = PropertyHandler.getPropertyAsInt("view.nblock");
-		int blockSize = PropertyHandler.getPropertyAsInt("view.blocksize");
-		for (int i = 0; i < PropertyHandler.getPropertyAsInt("game.nfruits"); ++i) {
-			Random rand = new Random();
-			int pos[] = {0,0};
-			do {
-				pos[0] = rand.nextInt(nBlocks);
-				pos[1] = rand.nextInt(nBlocks);
-			} while ((this.data[pos[0] + nBlocks * pos[1]] & BlockElement.POINT.getValue()) == 0);
-			this.setData(pos[0] + nBlocks * pos[1], this.data[pos[0] + nBlocks * pos[1]] & (BlockElement.POINT.getValue() - 1));
-			this.setData(pos[0] + nBlocks * pos[1], this.data[pos[0] + nBlocks * pos[1]] | BlockElement.FRUIT.getValue());
-			pos[0] *= blockSize;
-			pos[1] *= blockSize;
-			this.m.createFruit(pos);
-		}
 	}
 
 	@Override
@@ -77,21 +56,15 @@ public class BoardView extends JPanel {
 		drawScore(g2d);
 		drawMaze(g2d);
 		drawPacman(g2d);
-		drawGhost(g2d);
+		// drawGhost
 
 		g2d.drawImage(ii, 5, 5, this);
 		Toolkit.getDefaultToolkit().sync();
 		g2d.dispose();
 	}
 
-	private void drawGhost(Graphics2D g2d) {
-		for (Ghost ghost : this.m.getGhosts()) {
-			g2d.drawImage(ghost.getPng(), ghost.getPosition()[0] + 1, ghost.getPosition()[1] + 1, this);
-		}
-	}
-
 	private void drawPacman(Graphics2D g2d) {
-		g2d.drawImage(this.m.getPacman().getPng(), this.m.getPacman().getPosition()[0] + 1,
+		g2d.drawImage(this.m.getPacman().getImage(), this.m.getPacman().getPosition()[0] + 1,
 				this.m.getPacman().getPosition()[1] + 1, this);
 	}
 
@@ -126,15 +99,7 @@ public class BoardView extends JPanel {
 				if ((data[i] & BlockElement.BORDER_BLOCK.getValue()) != 0) {
 					g2d.fillRect(x, y, blockSize, blockSize);
 				}
-				
-				if ((data[i] & BlockElement.FRUIT.getValue()) != 0) {
-					final int xVal = x;
-					final int yVal = y;
-					GameObject fruit = this.m.getFruits().stream()
-							.filter(f -> f.getPosition()[0] == xVal && f.getPosition()[1] == yVal)
-							.findFirst().get();
-					g2d.drawImage(fruit.getPng(), fruit.getPosition()[0] + 1, fruit.getPosition()[1] + 1, this);
-				}
+
 				++i;
 			}
 		}
@@ -153,18 +118,24 @@ public class BoardView extends JPanel {
 	}
 
 	private void drawLoginView() {
+		
+		// Pacman logo
+		JLabel bg_image = new JLabel(new ImageIcon("img/pacman_logo.jpg"));
+		bg_image.setSize(549,250);
+		bg_image.setLocation(180, 20);
 		// UserData
-		JLabel nameLabel = new JLabel("Player Name:");
-		nameLabel.setSize(100, 20);
-		nameLabel.setLocation(10, 10);
+		JLabel nameLabel = new JLabel("<html><font color='white'>Player Name:</font></html>");
+		nameLabel.setFont(new Font("SANS_SERIF", Font.BOLD, 24));
+		nameLabel.setSize(160, 28);
+		nameLabel.setLocation(300, 450);
 
 		JTextField playerName = new JTextField();
-		playerName.setSize(100, 20);
+		playerName.setSize(100, 30);
 		playerName.setLocation(nameLabel.getWidth() + nameLabel.getLocation().x + 10, nameLabel.getLocation().y);
 
 		// Start Button
 		JButton startGame = new JButton("Start Game");
-		startGame.setSize(100, 20);
+		startGame.setSize(100, 50);
 		startGame.setLocation(playerName.getLocation().x, playerName.getLocation().y + playerName.getHeight() + 10);
 		startGame.addActionListener(new ActionListener() {
 
@@ -180,16 +151,13 @@ public class BoardView extends JPanel {
 				repaint();
 			}
 		});
-
+		
+		add(bg_image);
 		add(nameLabel);
 		add(playerName);
 		add(startGame);
 	}
 
-	public boolean isGameActive() {
-		return !this.isLoginScreen;
-	}
-	
 	public int[] getData() {
 		return data;
 	}
