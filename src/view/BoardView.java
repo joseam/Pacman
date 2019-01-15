@@ -119,23 +119,30 @@ public class BoardView extends JPanel {
 
 	private void drawLoginView() {
 		
-		// Pacman logo
+		// Headerbild Startseite
 		JLabel bg_image = new JLabel(new ImageIcon("img/pacman_logo.jpg"));
 		bg_image.setSize(549,250);
 		bg_image.setLocation(180, 20);
+		// Headerbild Startseite
+		JLabel bg_image_2 = new JLabel(new ImageIcon("img/bild_start_2.gif"));
+		bg_image_2.setSize(730,520);
+		bg_image_2.setLocation(150, 16);
+		
 		// UserData
 		JLabel nameLabel = new JLabel("<html><font color='white'>Player Name:</font></html>");
 		nameLabel.setFont(new Font("SANS_SERIF", Font.BOLD, 24));
 		nameLabel.setSize(160, 28);
 		nameLabel.setLocation(300, 450);
-
+		// Feld zur Texteingabe
+		Font font1 = new Font("SansSerif", Font.BOLD, 16);
 		JTextField playerName = new JTextField();
-		playerName.setSize(100, 30);
+		playerName.setSize(153, 32);
+		playerName.setFont(font1);
 		playerName.setLocation(nameLabel.getWidth() + nameLabel.getLocation().x + 10, nameLabel.getLocation().y);
 
 		// Start Button
-		JButton startGame = new JButton("Start Game");
-		startGame.setSize(100, 50);
+		JButton startGame = new JButton(new ImageIcon("img/largeyellowbutton.gif"));
+		startGame.setSize(154, 40);
 		startGame.setLocation(playerName.getLocation().x, playerName.getLocation().y + playerName.getHeight() + 10);
 		startGame.addActionListener(new ActionListener() {
 
@@ -153,6 +160,7 @@ public class BoardView extends JPanel {
 		});
 		
 		add(bg_image);
+		add(bg_image_2);
 		add(nameLabel);
 		add(playerName);
 		add(startGame);
