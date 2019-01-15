@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,10 +24,11 @@ import controller.ICallback;
 import model.Model;
 import model.Pacman;
 
-public class View extends JFrame {
+public class View extends JFrame  {
 	private Model m;
 	private ICallback callback;
 	private BoardView board;
+	private Color BGCOLOR = Color.BLACK;
 
 	public View(Model m) {
 		super();
@@ -37,7 +39,9 @@ public class View extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
+		
 		this.board = new BoardView(m);
+		this.board.setBackground(Color.BLACK);
 		add(this.board);
 		setVisible(true);
 	}
